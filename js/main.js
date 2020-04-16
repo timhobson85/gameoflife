@@ -2,8 +2,8 @@ const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 
 const resolution = 10;
-canvas.width = 400;
-canvas.height = 400;
+canvas.width = 800;
+canvas.height = 800;
 let generations = 0;
 
 const COLS = canvas.width / resolution;
@@ -17,13 +17,12 @@ function buildGrid() {
 }
 
 let grid = buildGrid();
-// console.log(grid);
 
-requestAnimationFrame(update);
-
+// requestAnimationFrame(update);
+let speed = 50;
 setInterval(() => {
     update();
-}, 50);
+}, speed);
 
 function update() {
     grid = nextGen(grid);
@@ -91,3 +90,17 @@ function resetBoard() {
 
 const reset = document.getElementById('reset');
 reset.addEventListener('click', () => { resetBoard() })
+
+document.getElementById('speed').addEventListener( 'change', (e) => {
+    switch ( e.target.value ) {
+        case 'fast':
+            speed = 1000;
+            break;
+        case 'medium':
+            speed = 500;
+            break;
+        case 'slow':
+            speed = 50;
+            break;
+    }
+} )
