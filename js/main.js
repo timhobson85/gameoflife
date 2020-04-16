@@ -4,6 +4,7 @@ const ctx = canvas.getContext('2d');
 const resolution = 10;
 canvas.width = 400;
 canvas.height = 400;
+let generations = 0;
 
 const COLS = canvas.width / resolution;
 const ROWS = canvas.height / resolution;
@@ -64,7 +65,8 @@ function nextGen(grid) {
         }
     }
     // console.log(nextGen);
-    
+    generations++;
+    document.getElementById('generations').innerHTML = generations;
     return nextGen;
 }
 
@@ -78,7 +80,14 @@ function render(grid) {
             ctx.rect( col * resolution, row * resolution, resolution, resolution );
             ctx.fillStyle = cell ? 'fuchsia' : 'cyan';
             ctx.fill();
-            // ctx.stroke();
         }
     }
 }
+
+function resetBoard() {
+    generations = 0;
+    grid = buildGrid();
+}
+
+const reset = document.getElementById('reset');
+reset.addEventListener('click', () => { resetBoard() })
