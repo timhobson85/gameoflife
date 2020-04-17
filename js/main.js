@@ -2,10 +2,11 @@ const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 
 const resolution = 10;
-canvas.width = 800;
-canvas.height = 800;
+canvas.width = 100;
+canvas.height = 100;
 let generations = 0;
 let speed = 50;
+let history = [ [], [], [] ];
 
 const COLS = canvas.width / resolution;
 const ROWS = canvas.height / resolution;
@@ -28,6 +29,20 @@ function stop() {
     clearInterval( startGame )
 }
 
+function compareArrays() {
+    // console.log(history);
+    for (let i = 0; i < history[0].length; i++) {
+        for (let j = 0; j < history[0][i].length; j++) {
+            if (history[0][i][j] !== history[2][i][j]) {
+                return false;
+            }   else    {
+                return true;
+            }
+        }
+    }
+    
+}
+
 
 function update() {
     grid = nextGen(grid);
@@ -38,6 +53,9 @@ function update() {
 
 function nextGen(grid) {
     const nextGen = grid.map( arr => [...arr] );
+    history.pop();
+    history.unshift( nextGen );
+    console.log(compareArrays());
     
     for (let col = 0; col < grid.length; col++) {
         for (let row = 0; row < grid[col].length; row++) {
@@ -96,6 +114,9 @@ function resetBoard() {
 
 const reset = document.getElementById('reset');
 reset.addEventListener('click', () => { resetBoard() })
+
+document.getElementById('stop').addEventListener('click', () => { stop() })
+document.getElementById('start').addEventListener('click', () => { start() })
 
 document.getElementById('speed').addEventListener( 'change', (e) => {
     // create a function to pass speed that starts/stops/setsspeed to not repeat everything
