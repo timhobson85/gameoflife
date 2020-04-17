@@ -2,11 +2,11 @@ const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 
 const resolution = 10;
-canvas.width = 100;
-canvas.height = 100;
+canvas.width = 800;
+canvas.height = 800;
 let generations = 0;
 let speed = 50;
-let history = [ [], [], [] ];
+let history = [ [1], [2], [3] ];
 
 const COLS = canvas.width / resolution;
 const ROWS = canvas.height / resolution;
@@ -34,12 +34,18 @@ function compareArrays() {
     for (let i = 0; i < history[0].length; i++) {
         for (let j = 0; j < history[0][i].length; j++) {
             if (history[0][i][j] !== history[2][i][j]) {
+                // console.log(i, j);
+                // console.log(history[0][i][j], history[2][i][j]);
+                
                 return false;
             }   else    {
-                return true;
+                // console.log(i, j);
+                // return true;
             }
         }
     }
+    stop();
+    return true;
     
 }
 
