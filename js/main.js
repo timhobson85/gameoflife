@@ -5,11 +5,13 @@ const resolution = 10;
 canvas.width = 800;
 canvas.height = 800;
 let generations = 0;
+let speed = 50;
 
 const COLS = canvas.width / resolution;
 const ROWS = canvas.height / resolution;
 
 function buildGrid() {
+    start();
     return new Array( COLS ).fill(null)
         .map( () => new Array( ROWS ).fill(null)
             .map( () => Math.floor(Math.random() * 2))
@@ -18,11 +20,14 @@ function buildGrid() {
 
 let grid = buildGrid();
 
-// requestAnimationFrame(update);
-let speed = 50;
-setInterval(() => {
-    update();
-}, speed);
+function start() {
+    startGame = setInterval( update, speed);
+}
+
+function stop() {
+    clearInterval( startGame )
+}
+
 
 function update() {
     grid = nextGen(grid);
@@ -84,6 +89,7 @@ function render(grid) {
 }
 
 function resetBoard() {
+    stop();
     generations = 0;
     grid = buildGrid();
 }
@@ -92,15 +98,22 @@ const reset = document.getElementById('reset');
 reset.addEventListener('click', () => { resetBoard() })
 
 document.getElementById('speed').addEventListener( 'change', (e) => {
+    // create a function to pass speed that starts/stops/setsspeed to not repeat everything
     switch ( e.target.value ) {
         case 'fast':
-            speed = 1000;
+            stop();
+            speed = 1;
+            start();
             break;
         case 'medium':
-            speed = 500;
+            stop();
+            speed = 50;
+            start();
             break;
         case 'slow':
-            speed = 50;
+            stop();
+            speed = 200;
+            start();
             break;
-    }
+    };
 } )
