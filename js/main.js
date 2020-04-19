@@ -2,8 +2,8 @@ const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 
 const resolution = 10;
-canvas.width = 800;
-canvas.height = 800;
+canvas.width = 200;
+canvas.height = 200;
 let generations = 0;
 let speed = 50;
 let history = [ [1], [2], [3] ];
@@ -30,23 +30,15 @@ function stop() {
 }
 
 function compareArrays() {
-    // console.log(history);
     for (let i = 0; i < history[0].length; i++) {
         for (let j = 0; j < history[0][i].length; j++) {
             if (history[0][i][j] !== history[2][i][j]) {
-                // console.log(i, j);
-                // console.log(history[0][i][j], history[2][i][j]);
-                
                 return false;
-            }   else    {
-                // console.log(i, j);
-                // return true;
-            }
+            }   
         }
     }
     stop();
     return true;
-    
 }
 
 
@@ -59,10 +51,6 @@ function update() {
 
 function nextGen(grid) {
     const nextGen = grid.map( arr => [...arr] );
-    history.pop();
-    history.unshift( nextGen );
-    console.log(compareArrays());
-    
     for (let col = 0; col < grid.length; col++) {
         for (let row = 0; row < grid[col].length; row++) {
             const cell = grid[col][row];
@@ -74,7 +62,7 @@ function nextGen(grid) {
                     }
                     const x_cell = col + i;
                     const y_cell = row + j;
-
+                    
                     if (x_cell >= 0 && y_cell >= 0 && x_cell < COLS && y_cell < ROWS ) {
                         const currentNeighbour = grid[col + i][row + j];
                         numNeighbours += currentNeighbour;
@@ -92,6 +80,10 @@ function nextGen(grid) {
             }
         }
     }
+    history.pop();
+    history.unshift( nextGen );
+    compareArrays();
+    
     // console.log(nextGen);
     generations++;
     document.getElementById('generations').innerHTML = generations;
