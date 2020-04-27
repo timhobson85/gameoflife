@@ -7,6 +7,7 @@ canvas.height = 200;
 let generations = 0;
 let speed = 50;
 let history = [ [1], [2], [3] ];
+let highScore = null
 
 const COLS = canvas.width / resolution;
 const ROWS = canvas.height / resolution;
@@ -106,6 +107,10 @@ function render(grid) {
 
 function resetBoard() {
     stop();
+    if (generations > highScore) {
+        highScore = generations
+        document.getElementById('highScore').innerHTML = highScore;
+    }
     generations = 0;
     grid = buildGrid();
 }
